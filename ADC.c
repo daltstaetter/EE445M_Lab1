@@ -23,6 +23,8 @@
  For more information about my classes, my research, and my books, see
  http://users.ece.utexas.edu/~valvano/
  */
+ 
+ // Dalton Altstaetter - DEA528 February 3, 2015
 #include <stdint.h>
 #include "inc/tm4c123gh6pm.h"
 #define NVIC_EN0_INT17          0x00020000  // Interrupt 17 enable
