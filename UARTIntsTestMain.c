@@ -25,12 +25,28 @@
 
 // U0Rx (VCP receive) connected to PA0
 // U0Tx (VCP transmit) connected to PA1
-
+#include <stdio.h>
 #include <stdint.h>
 #include "PLL.h"
 #include "UART.h"
-//#include "ST7735.h"
+#include "ST7735.h"
 #include "ADC.h"
+#include <rt_misc.h>
+
+
+struct __FILE { int handle; /* Add whatever you need here */ };
+FILE __stdout;
+FILE __stdin;
+int fputc(int ch, FILE *f){
+ UART_OutChar(ch);
+ return (1);
+}
+int fgetc (FILE *f){
+ return (UART_InChar());
+}
+int ferror(FILE *f){
+ return EOF;
+} 
 
 //---------------------OutCRLF---------------------
 // Output a CR,LF to UART to go to a new line
@@ -41,7 +57,7 @@ void OutCRLF(void){
   UART_OutChar(LF);
 }
 //debug code
-int main(void){
+int main1(void){
   char i;
   char string[20];  // global to assist in debugging
   uint32_t n;
@@ -79,5 +95,23 @@ int main2(void){
 	PLL_Init();
 	Output_Init();
 	ST7735_Message(0,0,"Hello World",45);
+	ST7735_Message(1,8,"Hello World",45);
+	ST7735_Message(0,0,"A",12345);
 	while(1){;}
 }
+
+int main(void){
+	PLL_Init();
+	UART_Init();              // initialize UART
+	OutCRLF();
+	UART_OutString("InString: ");
+	//printf("Debugging Interpreter Lab 1\n");
+	//printf("Commands:\n");
+	//printf("LCD\n");
+	//printf("ADC_Open\n");
+	//printf("ADC_In\n");
+	//printf("ADC_Collect\n");
+	//printf("ADC_Status\n");
+	while(1){;}
+}
+

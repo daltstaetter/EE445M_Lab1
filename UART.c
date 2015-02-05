@@ -27,7 +27,6 @@
 
 // U0Rx (VCP receive) connected to PA0
 // U0Tx (VCP transmit) connected to PA1
-#include <stdio.h>
 #include <stdint.h>
 #include "inc/tm4c123gh6pm.h"
 
@@ -316,15 +315,5 @@ char character;
   *bufPt = 0;
 }
 
-/*
-int fputc(int ch, FILE *f){
- UART_OutChar(ch);
- return (1);
-}
-int fgetc (FILE *f){
- return (UART_InChar());
-}
-int ferror(FILE *f){
- return EOF;
-} 
-*/
+
+
