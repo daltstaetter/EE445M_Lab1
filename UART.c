@@ -316,15 +316,16 @@ char character;
   *bufPt = 0;
 }
 
-/*
-int fputc(int ch, FILE *f){
- UART_OutChar(ch);
- return (1);
-}
-int fgetc (FILE *f){
- return (UART_InChar());
-}
-int ferror(FILE *f){
- return EOF;
-} 
-*/
+
+//int fputc(int ch, FILE *f){
+// UART_OutChar(ch);
+// return (1);
+//}
+//int fgetc (FILE *f){
+// return (UART_InChar());
+//}
+//int ferror(FILE *f){
+// return EOF;
+//} 
+
+
