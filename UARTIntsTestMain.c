@@ -31,6 +31,9 @@
 #include "UART.h"
 //#include "ST7735.h"
 #include "ADC.h"
+#include "OS.h"
+#include "inc/tm4c123gh6pm.h"
+
 
 //---------------------OutCRLF---------------------
 // Output a CR,LF to UART to go to a new line
@@ -40,8 +43,65 @@ void OutCRLF(void){
   UART_OutChar(CR);
   UART_OutChar(LF);
 }
+
+void GPIO_PortF_Init(void)
+{
+	unsigned long delay;
+	SYSCTL_RCGCGPIO_R |= SYSCTL_RCGC2_GPIOF;
+	delay = SYSCTL_RCGCGPIO_R;
+	
+	GPIO_PORTF_DIR_R |= 0x0F; // PF0-3 output
+	GPIO_PORTF_DEN_R |= 0x0F; // enable Digital IO on PF0-3
+	GPIO_PORTF_AFSEL_R &= ~0x0F; // PF0-3 alt funct disable
+	GPIO_PORTF_AMSEL_R &= ~0x0F; // disable analog functionality on PF0-3
+	
+	GPIO_PORTF_DATA_R = 0x02;
+}
+
+void PF1_Toggle(void)
+{
+		GPIO_PORTF_DATA_R ^= 0x02;
+}
+
+void PF2_Toggle(void)
+{
+		GPIO_PORTF_DATA_R ^= 0x04;
+}
+
+int main(void)
+{
+    int timer0;
+    int priority0;
+    int period0;
+		
+		int timer1;
+    int priority1;
+    int period1;
+	
+    timer0 = 1;
+    priority0 = 0;
+    period0 = 10;
+	
+    timer1 = 2;
+    priority1 = 0;
+    period1 = 20;
+		
+	  GPIO_PortF_Init();
+//	  OS_AddPeriodicThread(&PF1_Toggle, timer0, period0, priority0);
+    OS_AddPeriodicThread(&PF2_Toggle, timer0, period0, priority0);
+ // 		OS_AddPeriodicThread(&PF2_Toggle, timer2, period2, priority2);
+//    OS_AddPeriodicThread(&PF3_Toggle, timer3, period3, priority3);
+    
+//    OS_LaunchThread(&PF1_Toggle, timer0);
+		OS_LaunchThread(&PF2_Toggle, timer0);
+	
+	while(1)
+	{
+	}
+}
+
 //debug code
-int main(void){
+int mainvfvf(void){
   char i;
   char string[20];  // global to assist in debugging
   uint32_t n;
