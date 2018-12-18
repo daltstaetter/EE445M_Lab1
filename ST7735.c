@@ -53,7 +53,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "ST7735.h"
-#include "inc/tm4c123gh6pm.h"
+#include "tm4c123gh6pm.h"
 
 // 16 rows (0 to 15) and 21 characters (0 to 20)
 // Requires (11 + size*size*6*8) bytes of transmission for each character
@@ -1524,6 +1524,7 @@ void ST7735_OutString(uint8_t *ptr){
 void ST7735_SetTextColor(uint16_t color){
   StTextColor = color;
 }
+/*
 // Print a character to ST7735 LCD.
 int fputc(int ch, FILE *f){
   ST7735_OutChar(ch);
@@ -1535,9 +1536,9 @@ int fgetc (FILE *f){
 }
 // Function called when file error occurs.
 int ferror(FILE *f){
-  /* Your implementation of ferror */
   return EOF;
 }
+*/
 // Abstraction of general output device
 // Volume 2 section 3.4.5
 
@@ -1575,8 +1576,12 @@ void ST7735_Message (int device, int line, char *string, long value){
 	if(device==0){
 		if(line>7){
 			ST7735_SetCursor(0,0);
+			ST7735_OutString((uint8_t*)"                 ");
+			ST7735_SetCursor(0,0);
 			ST7735_OutString((uint8_t*)"line out of bounds");
 		}else{
+			ST7735_SetCursor(0,line);
+			ST7735_OutString((uint8_t*)"                 ");
 			ST7735_SetCursor(0,line);
 			ST7735_OutString((uint8_t*)string);
 			ST7735_OutChar(' ');
@@ -1585,8 +1590,12 @@ void ST7735_Message (int device, int line, char *string, long value){
 	}else if(device==1){
 		if(line<8){
 			ST7735_SetCursor(0,8);
+			ST7735_OutString((uint8_t*)"                  ");
+			ST7735_SetCursor(0,8);
 			ST7735_OutString((uint8_t*)"line out of bounds");
 		}else{
+			ST7735_SetCursor(0, line);
+			ST7735_OutString((uint8_t*)"                  ");
 			ST7735_SetCursor(0, line);
 			ST7735_OutString((uint8_t*)string);
 			ST7735_OutChar(' ');
@@ -1594,6 +1603,8 @@ void ST7735_Message (int device, int line, char *string, long value){
 		}
 	}else{
 		ST7735_SetCursor(0,0);
-		ST7735_OutString((uint8_t*)"Invalid Device      ");
+		ST7735_OutString((uint8_t*)"                    ");
+		ST7735_SetCursor(0,0);
+		ST7735_OutString((uint8_t*)"Invalid Device");
 	}
 }

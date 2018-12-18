@@ -1,4 +1,4 @@
-#include "inc/tm4c123gh6pm.h"
+//#include "inc/tm4c123gh6pm.h"
 
 // ADCT0ATrigger.c
 // Runs on LM4F120/TM4C123
@@ -26,7 +26,7 @@
  
  // Dalton Altstaetter - DEA528 February 3, 2015
 #include <stdint.h>
-#include "inc/tm4c123gh6pm.h"
+#include "tm4c123gh6pm.h"
 #define NVIC_EN0_INT17          0x00020000  // Interrupt 17 enable
 
 #define TIMER_CFG_16_BIT        0x00000004  // 16-bit timer configuration,
@@ -109,7 +109,7 @@ void WaitForInterrupt(void);  // low power mode
 // SS3 interrupts: enabled and promoted to controller
 volatile uint32_t NumberOfSamples=0;
 volatile uint16_t* Buffer;
-volatile uint32_t Status=0;
+volatile uint32_t Status=1;
 void ADC_Collect(uint8_t channelNum, uint32_t fs, uint16_t buffer[],uint32_t numberOfSamples){
   volatile uint32_t delay;
   // **** GPIO pin initialization ****
